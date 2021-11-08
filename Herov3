@@ -1,0 +1,47 @@
+class Hero : Character
+    {
+        public Hero(int x, int y, int startHP) : base(x, y, 'H', startHP, 2)
+        {
+        }
+
+        public override MovementEnum ReturnMove(MovementEnum move)
+        {
+            switch (move)
+            {
+                case MovementEnum.NoMovement:
+                    return MovementEnum.NoMovement;
+                case MovementEnum.Up:
+                    if (characterVision[0].GetType() == typeof(EmptyTile))
+                    {
+                        return MovementEnum.Up;
+                    }
+                    else return MovementEnum.NoMovement;
+                case MovementEnum.Right:
+                    if (characterVision[1].GetType() == typeof(EmptyTile))
+                    {
+                        return MovementEnum.Right;
+                    }
+                    else return MovementEnum.NoMovement;
+                case MovementEnum.Down:
+                    if (characterVision[2].GetType() == typeof(EmptyTile))
+                    {
+                        return MovementEnum.Down;
+                    }
+                    else return MovementEnum.NoMovement;
+                case MovementEnum.Left:
+                    if (characterVision[3].GetType() == typeof(EmptyTile))
+                    {
+                        return MovementEnum.Left;
+                    }
+                    else return MovementEnum.NoMovement;
+            }
+            return MovementEnum.NoMovement;
+        }
+
+        public override string ToString()
+        {
+            string playerstats;
+            playerstats = "Player stats:\n" + "HP: " + this.hp + "/" + this.maxhp + "\nDamage: " + this.damage + "\n [" + x + "," + y + "]";
+            return playerstats;
+        }
+    }
