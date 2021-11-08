@@ -1,0 +1,52 @@
+//Question 2.1
+    //Create an abstract base class called Tile.
+    abstract class Tile
+    {
+        //Create protected member variables
+        protected int x;
+        protected int y;
+        protected char symbol;
+        //Create a public enum called TileType
+        public enum TileType
+        {
+            Hero,
+            Enemy,
+            Gold,
+            Weapon
+        }
+        //Create public accessors for the protected variables
+        public int X
+        {
+            get { return x; }
+            set { x = value; }
+        }
+        public int Y
+        {
+            get { return y; }
+            set { y = value; }
+        }
+        public char Symbol
+        {
+            get { return symbol; }
+            set { symbol = value; }
+        }
+        //Create a constructor that recieves and sets the intial values
+        public Tile(int x, int y, char symbol)
+        {
+            this.X = x;
+            this.Y = y;
+            this.Symbol = symbol;
+        }
+    }
+
+    //Create the Obstacle subclass (derived) from Tile
+    class Obstacle : Tile
+    {
+        //Create a constructor that recieves and sets the intial values
+        public Obstacle(int x, int y, char symbol) : base(x, y, symbol)
+        {
+            this.X = x;
+            this.Y = y;
+            this.Symbol = symbol;
+        }
+    }
