@@ -1,0 +1,76 @@
+//Question 2.2
+    //Create an abstract class called Character that inherits from Tile
+    abstract class Character : Tile
+    {
+        //Create protected member variables
+        protected int hp;
+        protected int maxhp;
+        protected int damage;
+        //Create public accessors for the protected variables
+        public int HP
+        {
+            get { return hp; }
+            set { hp = value; }
+        }
+        public int MaxHP
+        {
+            get { return maxhp; }
+            set { maxhp = value; }
+        }
+        public int Damage
+        {
+            get { return damage; }
+            set { damage = value; }
+        }
+        //Create a Tile Array for the Character's Vision
+        public char[] CharacterVision = new char[4];
+        //Create a public enum for Movement
+        public enum Movement
+        {
+            NoMovement,
+            Up,
+            Down,
+            Left,
+            Right
+        }
+        //Question 2.3
+        //Create a constructor that recieves and sets the intial values
+        public Character(int x, int y, char symbol) : base (x, y, symbol)
+        {
+            this.X = x;
+            this.Y = y;
+            this.Symbol = symbol;
+        }
+        public virtual void Attack(/*CharacterTarget*/)
+        {
+            //Attacks a target and decreases its hp by attacking chars damage
+        }
+        public bool IsDead()
+        {
+            //Checks if the character is dead
+        }
+        public virtual bool CheckRange(/*CharacterTarget*/)
+        {
+            //Checks if the target is in range of the character
+            //Barehanded Range is always 1
+            //Determined by DistanceTo()
+            DistaceTo();
+        }
+        private int DistaceTo(/*CharacterTarget*/)
+        {
+            //Determines the number of spaces between the character and target.
+            //Diagonal is 1 up and 1 across. So 2 spaces.
+        }
+        public void Move(Movement move)
+        {
+            //Edits character's X and Y co-ordinates using the character movement enum
+        }
+        public abstract Movement ReturnMove(Movement move = 0)
+        {
+            //This determines how a character should move by comparing the character's vision array and whether the move is valid.
+        }
+        public abstract override string ToString()
+        {
+            //This overrides the Object to String method
+        }
+    }
