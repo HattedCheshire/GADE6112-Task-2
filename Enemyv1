@@ -1,0 +1,27 @@
+//Question 2.4
+    //Create an abstract class called Enemy that inherits from Character
+    abstract class Enemy : Character
+    {
+        //Create a random object for randomising variables
+        public static int RandomNumber(int a, int b)
+        {
+            Random rnd = new Random();
+            int value = rnd.Next(a + 2, b + 3);
+            return value;
+        }
+        //Create a constructor that recieves and sets the intial values
+        public Enemy(int x, int y, char symbol, int damage, int startinghp) : base(x, y, symbol)
+        {
+            this.X = x;
+            this.Y = y;
+            this.Symbol = symbol;
+            this.Damage = damage;
+            this.MaxHP = startinghp;
+        }
+        Create an overridden ToString method
+        public abstract override string ToString()
+        {
+            string enemydata = "{0} at [{1}, {2} ({3} DMG)", EnemyClassName, x, y, damage;
+        }
+
+    }
