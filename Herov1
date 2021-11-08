@@ -1,0 +1,66 @@
+//Question 2.6
+    //Create an abstract class called Hero that inherits from Character
+    class Hero : Character
+    {
+        Form1 _form1;
+        public Hero(int x, int y, char symbol, int startinghp) : base(x, y, symbol)
+        {
+            this.X = x;
+            this.Y = y;
+            this.Symbol = 'H';
+            this.Damage = 2;
+            this.MaxHP = startinghp;
+        }
+        //Create an overridden ReturnMove method that responds to the button clicks of the user
+        public override Movement ReturnMove(Movement move = 0)
+        {
+            int playerdirection = _form1.playerinput;
+
+            switch (playerdirection)
+            {
+                case 0: //North - Up
+                    //Check to see if the move is valid by using the CharacterVison Array.
+                    //If move is valid:
+                    //Character moves Up by decreasing their Y value.
+                    //Return from the method
+                    //If move is invalid:
+                    //Inform user, tell them to choose another button and
+                    //disable UpButton until a valid movement is made
+                    break;
+                case 1: //South - Down
+                    //Check to see if the move is valid by using the CharacterVison Array.
+                    //If move is valid:
+                    //Character moves Down by increasing their Y value.
+                    //Return from the method
+                    //If move is invalid:
+                    //Inform user, tell them to choose another button and
+                    //disable UpButton until a valid movement is made
+                    break;
+                case 2: //West - Left
+                    //Check to see if the move is valid by using the CharacterVison Array.
+                    //If move is valid:
+                    //Character moves Left by decreasing their X value.
+                    //Return from the method
+                    //Inform user, tell them to choose another button and
+                    //disable UpButton until a valid movement is made
+                    break;
+                case 3: //East - Right
+                    //Check to see if the move is valid by using the CharacterVison Array.
+                    //If move is valid:
+                    //Character moves Right by increasing their X value.
+                    //Return from the method
+                    //Inform user, tell them to choose another button and
+                    //disable UpButton until a valid movement is made
+                    break;
+            }
+            //If there are no valid moves, return MovementEnum.None
+            //Call a method for no movement
+        }
+        public abstract override string ToString()
+        {
+            string playerdata = "Player Stats:@HP: {0} / {1}@Damage: 2@[{2}, {3}]", hp, maxhp, x, y;
+            playerdata = playerdata.Replace("@", "@", "@" + Environment.NewLine);
+            _form1.PlayerStatsTextBox.Text = playerdata;
+
+        }
+    }
