@@ -1,0 +1,38 @@
+class Goblin : Enemy
+    {
+        public Goblin(int x, int y) : base(x, y, 'G', 10, 1)
+        {
+
+        }
+
+        public override MovementEnum ReturnMove(MovementEnum move = MovementEnum.NoMovement)
+        {
+            int enemymovement = 0;
+            do
+            {
+                enemymovement = randObj.Next(0, 4);
+            } 
+            while (characterVision[enemymovement].GetType() != typeof(EmptyTile));
+
+            switch (enemymovement)
+            {
+                case 0:
+                    return MovementEnum.Up;
+
+                case 1:
+                    return MovementEnum.Right;
+
+                case 2:
+                    return MovementEnum.Down;
+
+                case 3:
+                    return MovementEnum.Left;
+                default:
+                    return MovementEnum.NoMovement;
+            }
+        }
+        public override string ToString()
+        {
+            return "Goblin" + base.ToString();
+        }
+    }
