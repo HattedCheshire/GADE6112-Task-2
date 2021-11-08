@@ -1,0 +1,57 @@
+//Create a class called GameEngine
+    public class GameEngine
+    {
+        //Create a private Map Variable 
+        private Map gamemap;
+        //Create a public accessor
+        public Map GAMEMAP
+        {
+            get { return gamemap; }
+            set { gamemap = value; }
+        }
+
+        //Create a constructor that recieves and sets the intial values
+        public GameEngine()
+        {
+            //Create a map with sensible values
+            GAMEMAP = new Map(10, 10, 10, 10, 5);
+        }
+
+        public bool MovePlayer(Movement playerdirection)
+        {
+            if (GAMEMAP.PLAYER.ReturnMove(playerdirection) == playerdirection)
+            {
+                GAMEMAP.create(TileType.Empty, GAMEMAP.PLAYER.X, GAMEMAP.PLAYER.Y);
+
+                GAMEMAP.PLAYER.Move(playerdirection);
+                GAMEMAP.MAPTILE[GAMEMAP.PLAYER.X, GAMEMAP.PLAYER.Y] = GAMEMAP.PLAYER;
+
+                return true;
+            }
+            return false;
+        }
+
+        public string PlayerAttack(int Enemyindex)
+        {
+            bool enemyinrange = false;
+
+            foreach (Tile T in GAMEMAP.PLAYER.CHARACTERVISION)
+            {
+                if (T.X == GAMEMAP.GRUNTS[Enemyindex].X && T.Y == GAMEMAP.GRUNTS[Enemyindex].Y)
+                {
+                    enemyinrange = true;
+                }
+            }
+            if (enemyinrange)
+            {
+                GAMEMAP.PLAYER.Attack(GAMEMAP.GRUNTS[Enemyindex]);
+                return "You did " + GAMEMAP.PLAYER.DAMAGE.ToString() + " damage to a "
+                    + GAMEMAP.GRUNTS[Enemyindex].TYPEOFTILE.ToString()
+                    + " leaving them on " + GAMEMAP.GRUNTS[Enemyindex].HP.ToString() + "HP";
+            }
+            else
+            {
+                return "Target was not in range...";
+            }
+        }
+    }
