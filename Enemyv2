@@ -1,0 +1,35 @@
+public abstract class Enemy : Character
+    {
+        //Create a random object for randomising variables
+        public static int RandomNumber(int a, int b)
+        {
+            Random rnd = new Random();
+            int value = rnd.Next(a + 2, b + 3);
+            return value;
+        }
+        //Create a constructor that recieves and sets the intial values
+        public Enemy(int _X, int _Y, string _SYMBOL, TileType _TYPEOFTILE, int _HP, int _MAXHP, int _DAMAGE) : base(_X, _Y, _SYMBOL, _TYPEOFTILE, _HP, _MAXHP, _DAMAGE)
+        {
+            HP = _HP;
+            MAXHP = _MAXHP;
+            DAMAGE = _DAMAGE;
+        }
+        //Create an overridden ToString method
+        public override string ToString()
+        {
+            if (IsDead())
+            {
+                string Data = GetType().Name;
+                Data += " at [ " + X.ToString() + ", " + Y.ToString() + " ]";
+                Data += " is Dead";
+                return Data;
+            }
+            else
+            {
+                string Data = GetType().Name;
+                Data += " at [ " + X.ToString() + ", " + Y.ToString() + " ]";
+                Data += " (" + DAMAGE.ToString() + " Damage)";
+                return Data;
+            }
+        }
+    }
