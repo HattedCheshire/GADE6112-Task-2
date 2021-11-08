@@ -1,0 +1,29 @@
+//V1
+//Create the EmptyTile subclass (derived) from Tile
+    class EmptyTile : Tile
+    {
+        //Create a constructor that recieves and sets the intial values
+        public EmptyTile(int x, int y, char symbol) : base(x, y, symbol)
+        {
+            this.X = x;
+            this.Y = y;
+            this.Symbol = symbol;
+        }
+    }
+//V2
+class EmptyTile : Tile
+    {
+        public EmptyTile(int _X, int _Y, string _SYMBOL, TileType _TYPEOFTILE) : base(_X, _Y, _SYMBOL, _TYPEOFTILE)
+        {
+
+        }
+    }
+//V3
+class EmptyTile : Tile
+    {
+        public EmptyTile(int x, int y) : base(x, y, '.')
+        {
+
+        }
+
+    }
