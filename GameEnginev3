@@ -1,0 +1,66 @@
+class GameEngine
+    {
+        private Map gamemap = new Map(8, 15, 8, 15, 3);
+
+        public Map GAMEMAP
+        {
+            get { return gamemap; }
+        }
+
+        public bool MovePlayer(Character.MovementEnum playerdirection)
+        {
+            switch (playerdirection)
+            {
+                case Character.MovementEnum.NoMovement:
+                    return false;
+                case Character.MovementEnum.Up:
+                    if (GAMEMAP.hero.ReturnMove(playerdirection) == Character.MovementEnum.Up)
+                    {
+                        GAMEMAP.EmptyPreviousHeroSpace();
+                        GAMEMAP.hero.Move(Character.MovementEnum.Up);
+                        return true;
+
+                    }
+                    else return false;
+                case Character.MovementEnum.Right:
+                    if (GAMEMAP.hero.ReturnMove(playerdirection) == Character.MovementEnum.Right)
+                    {
+                        GAMEMAP.EmptyPreviousHeroSpace();
+                        GAMEMAP.hero.Move(Character.MovementEnum.Right);
+                        return true;
+
+                    }
+                    else return false;
+                case Character.MovementEnum.Down:
+                    if (GAMEMAP.hero.ReturnMove(playerdirection) == Character.MovementEnum.Down)
+                    {
+                        GAMEMAP.EmptyPreviousHeroSpace();
+                        GAMEMAP.hero.Move(Character.MovementEnum.Down);
+                        return true;
+
+                    }
+                    else return false;
+                case Character.MovementEnum.Left:
+                    if (GAMEMAP.hero.ReturnMove(playerdirection) == Character.MovementEnum.Left)
+                    {
+                        GAMEMAP.EmptyPreviousHeroSpace();
+                        GAMEMAP.hero.Move(Character.MovementEnum.Left);
+                        return true;
+
+                    }
+                    else return false;
+            }
+            return false;
+        }
+
+        public void UpdateEngine()
+        {
+            GAMEMAP.ClearGrunts();
+            GAMEMAP.UpdateMap();
+        }
+
+        public override string ToString()
+        {
+            return GAMEMAP.GenerateMap();
+        }
+    }
