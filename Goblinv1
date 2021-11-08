@@ -1,0 +1,54 @@
+class Goblin : Enemy
+    {
+        //Create a constructor that recieves and sets the intial values
+        public Goblin(int x, int y, char symbol, int damage, int startinghp) : base(x, y, symbol, damage, startinghp)
+        {
+            this.X = x;
+            this.Y = y;
+            this.Symbol = 'G';
+            this.Damage = 1;
+            this.MaxHP = 10;
+
+        }
+        //Create an overridden ReturnMove method that randomly chooses where the goblin will go.
+        public override Movement ReturnMove(Movement move = 0)
+        {
+            //Randomise a direction for the Goblin to move to
+            int direction = RandomNumber(0, 5);
+            switch (direction)
+            {
+                case 0: //North - Up
+                    //Check to see if the move is valid by using the CharacterVison Array.
+                    //If move is valid:
+                    //Character moves Up by decreasing their Y value.
+                    //Return from the method
+                    //If move is invalid:
+                    //Repeat method until the character is able to move
+                    break;
+                case 1: //South - Down
+                    //Check to see if the move is valid by using the CharacterVison Array.
+                    //If move is valid:
+                    //Character moves Down by increasing their Y value.
+                    //Return from the method
+                    //If move is invalid:
+                    //Repeat method until the character is able to move
+                    break;
+                case 2: //West - Left
+                    //Check to see if the move is valid by using the CharacterVison Array.
+                    //If move is valid:
+                    //Character moves Left by decreasing their X value.
+                    //Return from the method
+                    //If move is invalid:
+                    //Repeat method until the character is able to move
+                    break;
+                case 3: //East - Right
+                    //Check to see if the move is valid by using the CharacterVison Array.
+                    //If move is valid:
+                    //Character moves Right by increasing their X value.
+                    //Return from the method
+                    //If move is invalid:
+                    //Repeat method until the character is able to move
+                    break;
+            }
+        }
+    }
