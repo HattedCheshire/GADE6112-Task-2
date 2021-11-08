@@ -1,0 +1,43 @@
+//Question 2.1
+    //Create an abstract base class called Tile.
+    public abstract class Tile
+    {
+        //Create protected member variables
+        protected int x;
+        protected int y;
+        protected string symbol;
+
+        //Create public accessors for the protected variables
+        public int X
+        {
+            get { return x; }
+            set { x = value; }
+        }
+        public int Y
+        {
+            get { return y; }
+            set { y = value; }
+        }
+        public string SYMBOL
+        {
+            get { return symbol; }
+            set { symbol = value; }
+        }
+
+        private TileType typeoftile;
+
+        public TileType TYPEOFTILE
+        {
+            get { return typeoftile; }
+            set { typeoftile = value; }
+        }
+
+        //Create a constructor that recieves and sets the intial values
+        public Tile(int _X, int _Y, string _SYMBOL, TileType _TYPEOFTILE)
+        {
+            X = _X;
+            Y = _Y;
+            SYMBOL = _SYMBOL;
+            TYPEOFTILE = _TYPEOFTILE;
+        }
+    }
