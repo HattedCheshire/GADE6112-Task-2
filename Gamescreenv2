@@ -1,0 +1,80 @@
+public partial class Gamescreen : Form
+    {
+        GameEngine gameengine = new GameEngine();
+        public Gamescreen()
+        {
+            InitializeComponent();
+        }
+        
+        private void Gamescreen_Load(object sender, EventArgs e)
+        {
+            MapLabel.Text = gameengine.ToString();
+            playerstatsbox.Text = gameengine.GAMEMAP.PLAYER.ToString();
+
+            FillEnemiesList();
+        }
+
+        private void UpdateForm()
+        {
+            enemylist.Items.Clear();
+            FillEnemiesList();
+            MapLabel.Text = gameengine.ToString();
+            playerstatsbox.Text = gameengine.GAMEMAP.PLAYER.ToString();
+        }
+
+        private void FillEnemiesList()
+        {
+            for (int i = 0; i < gameengine.GAMEMAP.GRUNTS.Count; i++)
+            {
+                if (!gameengine.GAMEMAP.GRUNTS[i].IsDead())
+                {
+                    enemylist.Items.Add(gameengine.GAMEMAP.GRUNTS[i].ToString());
+                }
+            }
+        }
+        private void attackbutton_Click(object sender, EventArgs e)
+        {
+            gameengine.GAMEMAP.PLAYER.Attack(gameengine.GAMEMAP.GRUNTS[enemylist.SelectedIndex]);
+            playerstatsbox.Text += "\n" + gameengine.GAMEMAP.GRUNTS[enemylist.SelectedIndex].ToString();
+            UpdateForm();
+
+            attackbutton.Enabled = false;
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (gameengine.MovePlayer(Movement.Right))
+            {
+                MapLabel.Text = gameengine.ToString();
+                playerstatsbox.Text = gameengine.GAMEMAP.PLAYER.ToString();
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (gameengine.MovePlayer(Movement.Down))
+            {
+                MapLabel.Text = gameengine.ToString();
+                playerstatsbox.Text = gameengine.GAMEMAP.PLAYER.ToString();
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (gameengine.MovePlayer(Movement.Left))
+            {
+                MapLabel.Text = gameengine.ToString();
+                playerstatsbox.Text = gameengine.GAMEMAP.PLAYER.ToString();
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (gameengine.MovePlayer(Movement.Up))
+            {
+                MapLabel.Text = gameengine.ToString();
+                playerstatsbox.Text = gameengine.GAMEMAP.PLAYER.ToString();
+            }
+        }
+
+        
+    }
