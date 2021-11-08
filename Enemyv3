@@ -1,0 +1,19 @@
+abstract class Enemy : Character
+    {
+        protected Random randObj = new Random();
+
+        public Enemy(int x, int y, char symbol, int startHP, int dmg) : base(x, y, symbol, startHP, dmg)//Q2.4...Note: "So the enemy class should be able to pass HP to the character class so long as the character class's constructor has a parameter to receive HP"
+        {
+
+        }
+
+        public override string ToString()
+        {
+            if (IsDead())
+            {
+                return (" at [" + x + ", " + y + "] is Dead.");
+            }
+            else
+                return (" at [" + x + ", " + y + "] (" + damage + " DMG) HP: " + hp);
+        }
+    }
