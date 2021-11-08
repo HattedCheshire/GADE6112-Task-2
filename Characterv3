@@ -1,0 +1,84 @@
+abstract class Character : Tile
+    {
+        protected int hp;
+        protected int maxhp;
+        protected int damage;
+
+        public Tile[] characterVision = new Tile[4];
+
+        protected Character(int x, int y, char symbol, int startHP, int dmg) : base(x, y, symbol)
+        {
+            damage = dmg;
+            maxhp = startHP;
+            hp = maxhp;
+        }
+
+        public enum MovementEnum
+        {
+            NoMovement,
+            Up,
+            Right,
+            Down,
+            Left,
+        }
+
+        public virtual void Attack(Character target)
+        {
+            if (CheckRange(target))
+            {
+                target.hp -= damage;
+            }
+        }
+
+        public bool IsDead()
+        {
+            if (hp <= 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public virtual bool CheckRange(Character target)
+        {
+            if (DistanceTo(target) == 1)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private int DistanceTo(Character target)
+        {
+            int totalDist;
+            totalDist = (Math.Abs(target.y - y)) + Math.Abs((target.x - x));
+            return (totalDist);
+        }
+
+        public void Move(MovementEnum move)
+        {
+            switch (move)
+            {
+                case MovementEnum.NoMovement:
+                    break;
+                case MovementEnum.Up:
+                    this.y--;
+                    break;
+                case MovementEnum.Down:
+                    this.y++;
+                    break;
+                case MovementEnum.Left:
+                    this.x--;
+                    break;
+                case MovementEnum.Right:
+                    this.x++;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public abstract MovementEnum ReturnMove(MovementEnum move = 0);
+
+        public abstract override string ToString();
+    }
