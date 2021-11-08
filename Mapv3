@@ -1,0 +1,244 @@
+class Map
+    {
+        private int height;
+        private int width;
+
+        public Tile[,] tilearray;
+        private char[,] maparray;
+        public Enemy[] enemiesArray;
+
+        public EmptyTile emptytile = new EmptyTile(0, 0);
+        public Obstacle barrier = new Obstacle(0, 0);
+        public Goblin grunt = new Goblin(0, 0);
+        public Hero hero;
+
+        private Random rand = new Random();
+
+        public Map(int minheight, int maxheight, int minwidth, int maxwidth, int enemynum)
+        {
+            this.height = rand.Next(minheight, maxheight);
+            this.width = rand.Next(minwidth, maxwidth);
+
+            tilearray = new Tile[width, height];
+            Cleartiles();
+            GenerateBorder();
+            maparray = new char[width, height];
+
+            enemiesArray = new Enemy[enemynum];
+
+            hero = (Hero)Create(Tile.TileType.Hero); 
+            tilearray[hero.X, hero.Y] = hero;
+
+            for (int i = 0; i < enemiesArray.Length; i++)
+            {
+                enemiesArray[i] = (Enemy)Create(Tile.TileType.Enemy);
+                tilearray[enemiesArray[i].X, enemiesArray[i].Y] = enemiesArray[i];
+            }
+            UpdateVision();
+        }
+
+        public void UpdateVision()
+        {
+            for (int i = 0; i < 4; i++)
+            {                
+                switch (i)
+                {
+                    case 0: 
+                        hero.characterVision[i] = tilearray[hero.X, hero.Y - 1];
+                        break;
+                    case 1: 
+                        hero.characterVision[i] = tilearray[hero.X + 1, hero.Y];
+                        break;
+                    case 2: 
+                        hero.characterVision[i] = tilearray[hero.X, hero.Y + 1];
+                        break;
+                    case 3: 
+                        hero.characterVision[i] = tilearray[hero.X - 1, hero.Y];
+                        break;
+                }
+            }
+            for (int j = 0; j < enemiesArray.Length; j++)
+            {
+                for (int x = 0; x < 4; x++)
+                {
+                    switch (x)
+                    {
+                        case 0:
+                            enemiesArray[j].characterVision[x] = tilearray[enemiesArray[j].X, enemiesArray[j].Y - 1];
+                            break;
+                        case 1:
+                            enemiesArray[j].characterVision[x] = tilearray[enemiesArray[j].X + 1, enemiesArray[j].Y];
+                            break;
+                        case 2:
+                            enemiesArray[j].characterVision[x] = tilearray[enemiesArray[j].X, enemiesArray[j].Y + 1];
+                            break;
+                        case 3:
+                            enemiesArray[j].characterVision[x] = tilearray[enemiesArray[j].X - 1, enemiesArray[j].Y];
+                            break;
+                    }
+                }
+            }
+        }
+
+        private void HeroVisionUpdate()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        hero.characterVision[i] = tilearray[hero.X, hero.Y - 1];
+                        break;
+                    case 1:
+                        hero.characterVision[i] = tilearray[hero.X + 1, hero.Y];
+                        break;
+                    case 2:
+                        hero.characterVision[i] = tilearray[hero.X, hero.Y + 1];
+                        break;
+                    case 3:
+                        hero.characterVision[i] = tilearray[hero.X - 1, hero.Y];
+                        break;
+                }
+            }
+        }
+
+        private Tile Create(Tile.TileType type)
+        {
+            int x = 0;
+            int y = 0;
+            switch (type)
+            {
+                case Tile.TileType.Hero:
+                    do
+                    {
+                        x = rand.Next(0, width);
+                        y = rand.Next(0, height);
+                    } while (SearchCoordinates(x, y));
+                    return new Hero(x, y, 10);
+                case Tile.TileType.Enemy:
+                    do
+                    {
+                        x = rand.Next(0, width);
+                        y = rand.Next(0, height);
+                    } while (SearchCoordinates(x, y));
+                    return new Goblin(x, y);
+                default:
+                    return new Hero(-1, -1, -1);
+            }
+        }
+
+        public void UpdateMap()
+        {
+
+            HeroVisionUpdate();
+            Cleartiles();
+            GenerateBorder();
+            tilearray[hero.X, hero.Y] = hero;
+
+            for (int i = 0; i < enemiesArray.Length; i++)
+            {
+                tilearray[enemiesArray[i].X, enemiesArray[i].Y] = enemiesArray[i]; 
+            }
+
+            GenerateMap();
+        }
+
+        public string GenerateMap()
+        {
+            for (int y = 0; y < tilearray.GetLength(1); y++)
+            {
+                for (int x = 0; x < tilearray.GetLength(0); x++)
+                {
+
+                    if (tilearray[x, y].GetType() == typeof(Hero))
+                    {
+                        maparray[x, y] = hero.SYMBOL;
+                    }
+                    else if (tilearray[x, y].GetType() == typeof(Goblin))
+                    {
+                        maparray[x, y] = grunt.SYMBOL;
+                    }
+                    else if (tilearray[x, y].GetType() == typeof(Obstacle))
+                    {
+                        maparray[x, y] = barrier.SYMBOL;
+                    }
+                    else
+                    {
+                        maparray[x, y] = emptytile.SYMBOL;
+                    }
+                }
+            }
+
+            string maprow = "";
+
+            for (int y = 0; y < maparray.GetLength(1); y++)
+            {
+                for (int x = 0; x < maparray.GetLength(0); x++)
+                {
+                    if (y == 0)
+                    {
+                        maprow += Convert.ToString(maparray[x, y]);
+                    }
+                    else
+                    {
+                        maprow += Convert.ToString(maparray[x, y]);
+                    }
+                }
+                maprow += "\n";
+            }
+            return maprow;
+        }
+
+        private void GenerateBorder()
+        {
+            for (int y = 0; y < tilearray.GetLength(1); y++)
+            {
+                for (int x = 0; x < tilearray.GetLength(0); x++)
+                {
+                    if ((y == 0 || y == tilearray.GetLength(1) - 1) || (x == 0 || x == tilearray.GetLength(0) - 1))
+                    {
+                        tilearray[x, y] = new Obstacle(x, y);
+                    }
+                }
+            }
+        }
+
+        private bool SearchCoordinates(int x, int y)
+        {
+            if (tilearray[x, y].GetType() != typeof(EmptyTile))
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        public void ClearGrunts()
+        {
+            for (int i = 0; i < enemiesArray.Length; i++)
+            {
+                if (enemiesArray[i].IsDead())
+                {
+                    tilearray[enemiesArray[i].X, enemiesArray[i].Y] = emptytile;
+                    enemiesArray[i] = null;
+                }
+            }
+            UpdateVision();
+        }
+               
+        public void Cleartiles()
+        {
+            for (int y = 0; y < tilearray.GetLength(1); y++)
+            {
+                for (int x = 0; x < tilearray.GetLength(0); x++)
+                {
+                    tilearray[x, y] = new EmptyTile(x, y);
+                }
+            }
+        }
+
+        public void EmptyPreviousHeroSpace()
+        {
+            tilearray[hero.X, hero.Y] = emptytile;
+            HeroVisionUpdate();
+        }
+    }
