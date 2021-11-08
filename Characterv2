@@ -1,0 +1,113 @@
+public abstract class Character : Tile
+    {
+        //Create protected member variables
+        protected int hp;
+        protected int maxhp;
+        protected int damage;
+        //Create public accessors for the protected variables
+        public int HP
+        {
+            get { return hp; }
+            set { hp = value; }
+        }
+        public int MAXHP
+        {
+            get { return maxhp; }
+            set { maxhp = value; }
+        }
+        public int DAMAGE
+        {
+            get { return damage; }
+            set { damage = value; }
+        }
+        //Create a private Tile Array for the Character's Vision
+        private List<Tile> charactervision;
+        //public accessor
+        public List<Tile> CHARACTERVISION
+        {
+            get { return charactervision; }
+            set { charactervision = value; }
+        }
+        //Create a private enum for Movement
+        private Movement movement;
+        //public accessor
+        public Movement MOVEMENT
+        {
+            get { return movement; }
+            set { movement = value; }
+        }
+        //Create a constructor that recieves and sets the intial values
+        public Character(int _X, int _Y, string _SYMBOL, TileType _TYPEOFTILE, int _HP, int _MAXHP, int _DAMAGE) : base(_X, _Y, _SYMBOL, _TYPEOFTILE)
+        {
+            SYMBOL = _SYMBOL;
+            HP = _HP;
+            MAXHP = _MAXHP;
+            DAMAGE = _DAMAGE;
+
+            CHARACTERVISION = new List<Tile>();
+        }
+
+        public virtual void Attack(Character Target)
+        {
+            //Attacks a target and decreases its hp by attacking chars damage
+            Target.HP = Target.HP - DAMAGE;
+
+        }
+        public bool IsDead()
+        {
+            //Checks if the character is dead
+            if (HP <= 0)
+            {
+                return true;
+            }
+            else return false;
+        }
+        public virtual bool CheckRange(Character Target)
+        {
+            //Checks if the target is in range of the character
+            //Barehanded Range is always 1
+            int RangeDistance = 1;
+            //Determined by DistanceTo()
+            if (DistaceTo(Target) <= RangeDistance)
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        private int DistaceTo(Character Target)
+        {
+            //Determines the number of spaces between the character and target.
+            //Diagonal is 1 up and 1 across. So 2 spaces.
+            return Math.Abs(X - Target.X) + Math.Abs(Y - Target.Y);
+        }
+        public void Move(Movement move)
+        {
+            //Edits character's X and Y co-ordinates using the character movement enum
+            switch (move)
+            {
+                case Movement.NoMovement:
+
+                    break;
+                case Movement.Up:
+                    Y = Y - 1;
+                    break;
+                case Movement.Down:
+                    Y = Y + 1;
+                    break;
+                case Movement.Left:
+                    X = X - 1;
+                    break;
+                case Movement.Right:
+                   X = X + 1;
+                    break;
+                default:
+                    break;
+            }
+                
+        }
+        //This determines how a character should move by comparing the character's vision array and whether the move is valid.
+        public abstract Movement ReturnMove(Movement move = 0);
+        //This overrides the Object to String method
+        public abstract override string ToString();
+    }
