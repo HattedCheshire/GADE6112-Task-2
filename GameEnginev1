@@ -1,0 +1,137 @@
+//Question 3.3
+    //Create a class called GameEngine
+    class GameEngine
+    {
+        public int mapheight;
+        public int mapwidth;
+        public char[,] maptile;
+        Map _map;
+        Hero _hero;
+        Form1 _form1;
+        //Create a private Map Variable    
+        private int map;
+        public int playerdirection;
+        //Create a public accessor
+        public int Map
+        {
+            get { return map; }
+            set { map = value; }
+        }
+        //Create a constructor that recieves and sets the intial values
+        public GameEngine()
+        {
+            //Create a map with sensible values
+            Map gamemap = new Map(5, 15, 5, 15, 10);
+            mapheight = gamemap.height;
+            mapwidth = gamemap.width;
+            maptile = gamemap.maptile;
+            UpdateForm1();
+        }
+        public void MovePlayer()
+        {
+            //Use the Form1 Buttons to make the player move
+            switch (playerdirection)
+            {
+                case 0: //North - Up
+                    //Check to see if the move is valid by using the CharacterVison Array.
+                        
+                    if (_hero.CharacterVision[0] == ',' )
+                    {
+                        //If move is valid:
+                        //Character moves Up by decreasing their Y value.
+                        _hero.Y = _hero.Y - 1;
+                        _form1.buttonavaliability(4);
+                    }
+                    //Return from the method
+                    //If move is invalid:
+                    //Inform user, tell them to choose another button
+                    else
+                    {
+                        _form1.buttonavaliability(0);
+                    }                    
+                    break;
+                case 1: //South - Down        
+                    //Check to see if the move is valid by using the CharacterVison Array.
+
+                    if (_hero.CharacterVision[1] == ',')
+                    {
+                        //If move is valid:
+                        //Character moves Down by increasing their Y value.
+                        _hero.Y = _hero.Y + 1;
+                        _form1.buttonavaliability(4);
+                    }
+                    //Return from the method
+                    //If move is invalid:
+                    //Inform user, tell them to choose another button
+                    else
+                    {
+                        _form1.buttonavaliability(1);
+                    }
+                    break;
+                case 2: //West - Left                  
+                    //Check to see if the move is valid by using the CharacterVison Array.
+
+                    if (_hero.CharacterVision[2] == ',')
+                    {
+                        //If move is valid:
+                        //Character moves Left by decreasing their X value.
+                        _hero.Y = _hero.X - 1;
+                        _form1.buttonavaliability(4);
+                    }
+                    //Return from the method
+                    //If move is invalid:
+                    //Inform user, tell them to choose another button
+                    else
+                    {
+                        _form1.buttonavaliability(2);
+                    }
+                    break;
+                case 3: //East - Right
+                    //Check to see if the move is valid by using the CharacterVison Array.
+
+                    if (_hero.CharacterVision[3] == ',')
+                    {
+                        //If move is valid:
+                        //Character moves Right by increasing their X value.
+                        _hero.Y = _hero.X + 1;
+                        _form1.buttonavaliability(4);
+                    }
+                    //Return from the method
+                    //If move is invalid:
+                    //Inform user, tell them to choose another button
+                    else
+                    {
+                        _form1.buttonavaliability(3);
+                    }
+                    break;
+            }
+            //If there are no valid moves, return MovementEnum.None
+            //Call a method for no movement   
+            UpdateForm1();
+        }
+        
+        public void UpdateForm1()
+        {
+            //Update the MapLabel
+            string Mapline = "";
+            for (int i = 0; i < mapheight; i++)
+            {
+                for (int j = 0; j < mapwidth; j++)
+                {
+                    Mapline += maptile[i,j];
+                }
+                Mapline += Environment.NewLine;
+            }
+            _form1.MapLabel.Text = Mapline;
+            int hp = _hero.HP;
+            int maxhp = _hero.MaxHP;
+            int x = _hero.X;
+            int y = _hero.Y;
+            _form1.PlayerStatsTextBox.Text = "Player Stats:\nHP: " + hp + "/" + maxhp + "\nDamage: 2\n[" + x + ", " + y + "]";
+        }
+        //Create private static readonly char for each tile type
+        private static readonly char Hero = 'H';
+        private static readonly char Empty = ',';
+        private static readonly char Goblin = 'G';
+        private static readonly char Obstacle = 'X';
+    }
