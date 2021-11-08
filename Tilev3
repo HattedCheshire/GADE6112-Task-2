@@ -1,0 +1,40 @@
+abstract class Tile
+    {
+        protected int x;
+        protected int y;
+        protected char symbol;
+
+        public Tile(int x, int y, char symbol)
+        {
+            this.x = x;
+            this.y = y;
+            this.symbol = symbol;
+
+        }
+
+        public int X
+        {
+            get { return x; }
+            set { x = value; }
+        }
+
+        public int Y
+        {
+            get { return y; }
+            set { y = value; }
+        }
+
+        public char SYMBOL
+        {
+            get { return symbol; }
+            set { symbol = value; }
+        }
+
+        public enum TileType
+        {
+            Hero,
+            Enemy,
+            Gold,
+            Weapon
+        }
+    }
