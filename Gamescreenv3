@@ -1,0 +1,91 @@
+public partial class Gamescreen : Form
+    {
+        GameEngine gameEngine = new GameEngine();
+
+        public Gamescreen()
+        {
+            InitializeComponent();
+        }
+
+        private void Gamescreen_Load(object sender, EventArgs e)
+        {
+            maplabel.Text = gameEngine.ToString();
+            statlabel.Text = gameEngine.GAMEMAP.hero.ToString();
+
+            FillEnemiesList();
+        }
+
+        private void UpdateForm()
+        {
+            Enemylistbox.Items.Clear();
+            FillEnemiesList();
+            maplabel.Text = gameEngine.ToString();
+            statlabel.Text = gameEngine.GAMEMAP.hero.ToString();
+        }
+
+        private void FillEnemiesList()
+        {
+            for (int i = 0; i < gameEngine.GAMEMAP.enemiesArray.Length; i++)
+            {
+                if (!gameEngine.GAMEMAP.enemiesArray[i].IsDead())
+                {
+                    Enemylistbox.Items.Add(gameEngine.GAMEMAP.enemiesArray[i].ToString());
+                }
+            }
+        }
+
+         private void Enemylistbox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            attackbutton.Enabled = true;
+        }
+
+        private void leftbutton_Click(object sender, EventArgs e)
+        {
+            if (gameEngine.MovePlayer(Character.MovementEnum.Left))
+            {
+                gameEngine.UpdateEngine();
+                maplabel.Text = gameEngine.ToString();
+                statlabel.Text = gameEngine.GAMEMAP.hero.ToString();
+            }
+        }
+
+        private void downbutton_Click(object sender, EventArgs e)
+        {
+            if (gameEngine.MovePlayer(Character.MovementEnum.Down))
+            {
+                gameEngine.UpdateEngine();
+                maplabel.Text = gameEngine.ToString();
+                statlabel.Text = gameEngine.GAMEMAP.hero.ToString();
+            }
+        }
+
+        private void rightbutton_Click(object sender, EventArgs e)
+        {
+            if (gameEngine.MovePlayer(Character.MovementEnum.Right))
+            {
+                gameEngine.UpdateEngine();
+                maplabel.Text = gameEngine.ToString();
+                statlabel.Text = gameEngine.GAMEMAP.hero.ToString();
+            }
+        }
+
+        private void upbutton_Click(object sender, EventArgs e)
+        {
+            if (gameEngine.MovePlayer(Character.MovementEnum.Up))
+            {
+                gameEngine.UpdateEngine();
+                maplabel.Text = gameEngine.ToString();
+                statlabel.Text = gameEngine.GAMEMAP.hero.ToString();
+            }
+        }
+
+        private void attackbutton_Click(object sender, EventArgs e)
+        {
+            gameEngine.GAMEMAP.hero.Attack(gameEngine.GAMEMAP.enemiesArray[Enemylistbox.SelectedIndex]);
+            logbox.Text += "\n" + gameEngine.GAMEMAP.enemiesArray[Enemylistbox.SelectedIndex].ToString();
+            gameEngine.UpdateEngine();
+            UpdateForm();
+
+            attackbutton.Enabled = false;
+        }
+    }
