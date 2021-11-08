@@ -1,0 +1,72 @@
+public partial class Form1 : Form
+    {
+        GameEngine gameengine = new GameEngine();
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        public void buttonavaliability(int a)
+        {
+            switch (a)
+            {
+                case 0: 
+                    Upbutton.Enabled = false;
+                    break;
+                case 1: 
+                    Downbutton.Enabled = false;
+                    break;
+                case 2: 
+                    Leftbutton.Enabled = false;
+                    break;
+                case 3: 
+                    Rightbutton.Enabled = false;
+                    break;
+                case 4:
+                    Upbutton.Enabled = true;
+                    Downbutton.Enabled = true;
+                    Leftbutton.Enabled = true;
+                    Rightbutton.Enabled = true;
+                    break;
+            }
+        }
+        
+        public void Upbutton_Click(object sender, EventArgs e)
+        {
+            gameengine.playerdirection = 0;
+            gameengine.MovePlayer();
+        }
+
+        public void Downbutton_Click(object sender, EventArgs e)
+        {
+            gameengine.playerdirection = 1;
+            gameengine.MovePlayer();
+        }
+
+        public void Leftbutton_Click(object sender, EventArgs e)
+        {
+            gameengine.playerdirection = 2;
+            gameengine.MovePlayer();
+        }
+
+        public void Rightbutton_Click(object sender, EventArgs e)
+        {
+            gameengine.playerdirection = 3;
+            gameengine.MovePlayer();
+        }
+
+        public void Attackbutton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        public void CharacterTargetList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+    }
