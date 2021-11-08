@@ -1,0 +1,85 @@
+public class Hero : Character
+    {
+        public Hero(int _X, int _Y, string _SYMBOL, TileType _TYPEOFTILE, int _HP, int _MAXHP, int _DAMAGE) : base(_X, _Y, _SYMBOL, _TYPEOFTILE, _HP, _MAXHP, _DAMAGE)
+        {
+
+        }
+        //Create an overridden ReturnMove method that responds to the button clicks of the user
+        public override Movement ReturnMove(Movement move = Movement.NoMovement)
+        {
+            if (CheckforValidMove(move))
+            {
+                return move;
+            }
+            else return Movement.NoMovement;
+        }
+        public override string ToString()
+        {
+            string Data = "Player Stats:" + Environment.NewLine;
+            Data += "HP: " + HP.ToString() + "/" + MAXHP.ToString() + Environment.NewLine;
+            Data += "Damage: " + DAMAGE.ToString() + Environment.NewLine;
+            Data += "[ " + X.ToString() + ", " + Y.ToString() + " ]";
+            
+            return Data;
+        }
+        bool CheckforValidMove(Movement move)
+        {
+            bool validmove = false;
+            switch (move)
+            {
+                case Movement.Up:
+                    foreach (Tile T in CHARACTERVISION)
+                    {
+                        if (T.Y == Y - 1)
+                        {
+                            if (T.TYPEOFTILE == TileType.Empty)
+                            {
+                                validmove = true;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                case Movement.Down:
+                    foreach (Tile T in CHARACTERVISION)
+                    {
+                        if (T.Y == Y + 1)
+                        {
+                            if (T.TYPEOFTILE == TileType.Empty)
+                            {
+                                validmove = true;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                case Movement.Right:
+                    foreach (Tile T in CHARACTERVISION)
+                    {
+                        if (T.X == X + 1)
+                        {
+                            if (T.TYPEOFTILE == TileType.Empty)
+                            {
+                                validmove = true;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                case Movement.Left:
+                    foreach (Tile T in CHARACTERVISION)
+                    {
+                        if (T.X == X - 1)
+                        {
+                            if (T.TYPEOFTILE == TileType.Empty)
+                            {
+                                validmove = true;
+                                break;
+                            }
+                        }
+                    }
+                    break;
+            }
+            return validmove;
+        }
+    }
