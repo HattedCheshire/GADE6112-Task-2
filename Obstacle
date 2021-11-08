@@ -1,0 +1,27 @@
+//V1
+class Obstacle : Tile
+    {
+        //Create a constructor that recieves and sets the intial values
+        public Obstacle(int x, int y, char symbol) : base(x, y, symbol)
+        {
+            this.X = x;
+            this.Y = y;
+            this.Symbol = symbol;
+        }
+    }
+//V2
+class Obstacle : Tile
+    {
+        public Obstacle (int _X, int _Y, string _SYMBOL, TileType _TYPEOFTILE) : base(_X, _Y, _SYMBOL, _TYPEOFTILE)
+        {
+
+        }
+    }
+//V3
+class Obstacle : Tile
+    {
+        public Obstacle(int x, int y) : base(x, y, 'X')
+        {
+
+        }
+    }
