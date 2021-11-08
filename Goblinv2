@@ -1,0 +1,39 @@
+public class Goblin : Enemy
+    {
+        //Create a constructor that recieves and sets the intial values
+        public Goblin(int _X, int _Y, string _SYMBOL, TileType _TYPEOFTILE, int _HP, int _MAXHP, int _DAMAGE) : base(_X, _Y, _SYMBOL, _TYPEOFTILE, _HP, _MAXHP, _DAMAGE)
+        {
+
+        }
+        //Create an overridden ReturnMove method that randomly chooses where the goblin will go.
+        public override Movement ReturnMove(Movement move = Movement.NoMovement)
+        {
+            //Randomise a direction for the Goblin to move to
+            int RandomTile = RandomNumber(0, CHARACTERVISION.Count);
+            while (CHARACTERVISION[RandomTile].TYPEOFTILE.Equals(typeof(EmptyTile)))
+            {
+                RandomTile = RandomNumber(0, CHARACTERVISION.Count);
+            }
+            //Goblin Moves Up
+            if (CHARACTERVISION[RandomTile].Y < Y)
+            {
+                return Movement.Up;
+            }
+            //Goblin Moves Down
+            else if (CHARACTERVISION[RandomTile].Y > Y)
+            {
+                return Movement.Down;
+            }
+            //Goblin Moves Right
+            else if (CHARACTERVISION[RandomTile].X > X)
+            {
+                return Movement.Right;
+            }
+            //Goblin Moves Left
+            else if (CHARACTERVISION[RandomTile].X < X)
+            {
+                return Movement.Left;
+            }
+            return Movement.NoMovement;
+        }
+    }
