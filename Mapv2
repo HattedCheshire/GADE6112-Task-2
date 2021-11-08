@@ -1,0 +1,184 @@
+//Create a class called Map
+    public class Map
+    {
+        //Create private member variables
+        private int mapwidth;
+        private int mapheight;
+        //Create public Accessors
+        public int MAPWIDTH
+        {
+            get { return mapwidth; }
+            set { mapwidth = value; }
+        }
+        public int MAPHEIGHT
+        {
+            get { return mapheight; }
+            set { mapheight = value; }
+        }
+        //Create a 2D character array to repesent the map it must be update often.
+        private Tile[,] maptile;
+        public Tile[,] MAPTILE
+        {
+            get { return maptile; }
+            set { maptile = value; }
+        }
+        
+        //Create a new Hero Class
+        private Hero player;
+        public Hero PLAYER
+        {
+            get { return player; }
+            set { player = value; }
+        }
+
+        private List<Enemy> grunts;
+        public List<Enemy> GRUNTS
+        {
+            get { return grunts; }
+            set { grunts = value; }
+        }
+
+        //Create a random object for randomising numbers
+        public static int RandomNumber(int a, int b)
+        {
+            Random rnd = new Random();
+            int value = rnd.Next(a, b);
+            return value;
+        }
+        //Question 3.2
+        //Create a constructor that recieves and sets the intial values
+        public Map(int minwidth, int maxwidth, int minheight, int maxheight,int numberofenemies)
+        {
+            //Create a random height and width for the map
+            MAPHEIGHT = RandomNumber(minheight, maxheight);
+            MAPWIDTH = RandomNumber(minwidth, maxwidth);
+            //Map is generated from height and width
+            MAPTILE = new Tile[MAPWIDTH, MAPHEIGHT];
+            //Create Enemies
+            GRUNTS = new List<Enemy>();
+
+            //Generate the map
+            GenerateMap(numberofenemies);
+            //Update the vision
+            UpdateVision();
+        }
+        //Create method to update the CharacterVision array
+        public void UpdateVision()
+        {
+            //Update enemy vision
+            foreach (Enemy G in GRUNTS)
+            {
+                G.CHARACTERVISION.Clear();
+                if(G.X > 0)
+                {
+                    G.CHARACTERVISION.Add(MAPTILE[G.X - 1, G.Y]);
+                }
+                if (G.X < MAPWIDTH)
+                {
+                    G.CHARACTERVISION.Add(MAPTILE[G.X + 1, G.Y]);
+                }
+                if (G.Y > 0)
+                {
+                    G.CHARACTERVISION.Add(MAPTILE[G.X, G.Y - 1]);
+                }
+                if (G.Y < MAPHEIGHT)
+                {
+                    G.CHARACTERVISION.Add(MAPTILE[G.X, G.Y + 1]);
+                }
+            }
+            //Update Hero Vision
+            PLAYER.CHARACTERVISION.Clear();
+            if (PLAYER.X > 0)
+            {
+                PLAYER.CHARACTERVISION.Add(MAPTILE[PLAYER.X - 1, PLAYER.Y]);
+            }
+            if (PLAYER.X < MAPWIDTH)
+            {
+                PLAYER.CHARACTERVISION.Add(MAPTILE[PLAYER.X + 1, PLAYER.Y]);
+            }
+            if (PLAYER.Y > 0)
+            {
+                PLAYER.CHARACTERVISION.Add(MAPTILE[PLAYER.X, PLAYER.Y - 1]);
+            }
+            if (PLAYER.Y < MAPHEIGHT)
+            {
+                PLAYER.CHARACTERVISION.Add(MAPTILE[PLAYER.X, PLAYER.Y + 1]);
+            }
+        }
+
+        void GenerateMap(int numberofenemies)
+        {
+            for (int i = 0; i < MAPWIDTH; i++)
+            {
+                for (int j = 0; j < MAPHEIGHT; j++)
+                {
+                    if (j == 0 || j == MAPWIDTH - 1 || i == 0 || i == MAPHEIGHT - 1)
+                    {
+                        create(TileType.Obstacle, j, i);
+                    }
+                    else
+                    {
+                        create(TileType.Empty, j, i);
+                    }
+                }
+            }
+            create(TileType.Hero);
+            for (int g = 0; g < numberofenemies; g++)
+            {
+                create(TileType.Enemy);
+            }
+        }
+        public void create(TileType typetile, int X = 0, int Y = 0)
+        {
+            switch (typetile)
+            {
+                case TileType.Empty:
+                    EmptyTile NewEmptyTile = new EmptyTile(X, Y, " ", typetile);
+                    MAPTILE[X, Y] = NewEmptyTile;
+                    break;
+                case TileType.Obstacle:
+                    Obstacle NewObstacle = new Obstacle(X, Y, " ", typetile);
+                    MAPTILE[X, Y] = NewObstacle;
+                    break;
+                case TileType.Hero:
+                    int herox = RandomNumber(0, MAPWIDTH);
+                    int heroy = RandomNumber(0, MAPHEIGHT);
+                    while (MAPTILE[herox, heroy].TYPEOFTILE != TileType.Empty)
+                    {
+                        herox = RandomNumber(0, MAPWIDTH);
+                        heroy = RandomNumber(0, MAPHEIGHT);
+                    }
+                    Hero NewHero = new Hero(herox, heroy, "H", typetile, 100, 100, 10);
+                    PLAYER = NewHero;
+                    MAPTILE[herox, heroy] = NewHero;
+                    break;
+                case TileType.Enemy:
+                    int enemyx = RandomNumber(0, MAPWIDTH);
+                    int enemyy = RandomNumber(0, MAPHEIGHT);
+                    while (MAPTILE[enemyx, enemyy].TYPEOFTILE != TileType.Empty)
+                    {
+                        enemyx = RandomNumber(0, MAPWIDTH);
+                        enemyy = RandomNumber(0, MAPHEIGHT);
+                    }
+                    Goblin NewEnemy = new Goblin(enemyx, enemyy, "G", typetile, 100, 100, 10);
+                    GRUNTS.Add(NewEnemy);
+                    MAPTILE[enemyx, enemyy] = NewEnemy;
+                    break;
+            }
+        }
+
+        public override string ToString()
+        {
+            string map = "";
+            for (int i = 0; i < MAPWIDTH; i++)
+            {
+                for (int j = 0; j < MAPHEIGHT; j++)
+                {
+                    map += MAPTILE[j, i].SYMBOL;
+                }
+                map += Environment.NewLine;
+            }
+
+            return map;
+        }
+    }
