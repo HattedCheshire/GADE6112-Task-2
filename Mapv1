@@ -1,0 +1,157 @@
+//Question 3.1
+    //Create a class called Map
+    public class Map
+    {
+        //Create private member variables
+        //Create a 2D character array to repesent the map it must be update often.
+        public char[,] maptile;
+        //Variables for storing the width and height of the map
+        private int minheight = 5;
+        private int maxheight = 15;
+        private int minwidth = 5;
+        private int maxwidth = 15;
+        public int height;
+        public int width;
+        public int numberofenemies;
+        
+        public int herox;
+        public int heroy;
+        public int startingHP;
+        //Create an enemy array for the enemies.
+        Enemy[] Grunt;
+        //Create public accessors for the protected variables
+        public int MinHeight
+        {
+            get { return minheight; }
+            set { minheight = value; }
+        }
+        public int MaxHeight
+        {
+            get { return maxheight; }
+            set { maxheight = value; }
+        }
+        public int MinWidth
+        {
+            get { return minwidth; }
+            set { minwidth = value; }
+        }
+        public int MaxWidth
+        {
+            get { return maxwidth; }
+            set { maxwidth = value; }
+        }
+        //Create a random object for randomising numbers
+        public static int RandomNumber(int a, int b)
+        {
+            Random rnd = new Random();
+            int value = rnd.Next(a, b);
+            return value;
+        }
+        //Question 3.2
+        //Create a constructor that recieves and sets the intial values
+        public Map(int minwidth, int maxwidth, int minheight, int maxheight,int numberofenemies)
+        {
+            this.MinWidth = minwidth;
+            this.MaxWidth = maxwidth;
+            this.MinHeight = minheight;
+            this.MaxHeight = maxheight;
+            this.numberofenemies = numberofenemies;
+            //Create a random height and width for the map
+            height = RandomNumber(MinHeight, MaxHeight);
+            width = RandomNumber(MinWidth, MaxWidth);
+            //Map is generated from height and width
+            maptile = new char[height, width];
+
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    if (i == 0 || i == height - 1)
+                    {
+                        maptile[i, j] = 'X';
+                    }
+                    else if (j == 0 || j == width - 1)
+                    {
+                        maptile[i, j] = 'X';
+                    }
+                    else
+                    {
+                        maptile[i, j] = ',';
+                    }
+                }
+            }
+            //Create new Enemy array based on the provided size
+            Grunt = new Enemy[numberofenemies];
+
+            //Create a new Hero Class
+            herox = RandomNumber(1, width);
+            heroy = RandomNumber(1, height);
+            startingHP = RandomNumber(1, 100); //Need to come up with the starting value in further tasks.
+            Hero Player = new Hero(herox, heroy, 'H', startingHP);
+            //Place Hero on the map
+            maptile[Player.Y, Player.X] = Player.Symbol;
+            //Loop through the Enemy array, create each enemy and put them on the tile map
+            for (int i = 0; i < numberofenemies; i++)
+            {
+                int Gruntx = RandomNumber(1, width);
+                int Grunty = RandomNumber(1, height);
+                Grunt[i] = new Goblin(Gruntx, Grunty, 'G', 1, 10);
+                //Place Enemy on the map
+                maptile[Grunt[i].Y, Grunt[i].X] = Grunt[i].Symbol;
+            }
+            UpdateVision();
+        }
+        //Create method to update the CharacterVision array
+        public void UpdateVision()
+        {
+            //Update enemy vision
+            for (int i = 0; i < numberofenemies; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    switch (j)
+                    {
+                        case 0: //North - Up
+                            Grunt[i].CharacterVision[j] = maptile[Grunt[i].Y - 1, Grunt[i].X];
+                            break;
+                        case 1: //South - Down
+                            Grunt[i].CharacterVision[j] = maptile[Grunt[i].Y + 1, Grunt[i].X];
+                            break;
+                        case 2: //West - Left
+                            Grunt[i].CharacterVision[j] = maptile[Grunt[i].Y, Grunt[i].X - 1];
+                            break;
+                        case 3: //East - Right
+                            Grunt[i].CharacterVision[j] = maptile[Grunt[i].Y, Grunt[i].X + 1];
+                            break;
+                    }
+                }
+            }
+            //Update Hero Vision
+            Hero Player = new Hero(herox, heroy, 'H', startingHP);
+            for (int h = 0; h < 4; h++)
+            {
+                switch (h)
+                {
+                    case 0: //North - Up
+                        Player.CharacterVision[h] = maptile[Player.Y - 1, Player.X];
+                        break;
+                    case 1: //South - Down
+                        Player.CharacterVision[h] = maptile[Player.Y + 1, Player.X];
+                        break;
+                    case 2: //West - Left
+                        Player.CharacterVision[h] = maptile[Player.Y, Player.X - 1];
+                        break;
+                    case 3: //East - Right
+                        Player.CharacterVision[h] = maptile[Player.Y, Player.X + 1];
+                        break;
+                }
+            }
+        }
+        private tile create(tileenum type)
+        {
+            //used to create objects. 
+            //generates x and y co-ordiantate and the puts them in the maptile array
+            //will regenerate x and y co-ordiantes if there is already an object in the array
+        }
+        //will need to add more methods to make game viable
+    }
