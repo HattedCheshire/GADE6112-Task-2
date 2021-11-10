@@ -27,3 +27,14 @@ class EmptyTile : Tile
         }
 
     }
+ //V4
+    //Create EmptyTile class that inherits from the Tile class 
+    class EmptyTile : Tile
+    {
+        //Create constructor for class EmptyTile
+        public EmptyTile(int x, int y) : base(x, y, '.')
+        {
+
+        }
+
+    }
