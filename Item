@@ -1,0 +1,12 @@
+//Create abstract Item class that inherits from the Tile class 
+    abstract class Item : Tile
+    {
+        //Create constructor for class Item
+        public Item(int x, int y, char symbol) : base(x, y, symbol)
+        {
+
+        }
+
+        //Create a method to override the ToString method
+        public abstract override string ToString();
+    }
