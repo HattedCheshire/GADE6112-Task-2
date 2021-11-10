@@ -25,3 +25,13 @@ class Obstacle : Tile
 
         }
     }
+//V4
+    //Create Obstacle class that inherits from the Tile class 
+    class Obstacle : Tile
+    {
+        //Create constructor for class Obstacle
+        public Obstacle(int x, int y) : base(x, y, 'X')
+        {
+
+        }
+    }
